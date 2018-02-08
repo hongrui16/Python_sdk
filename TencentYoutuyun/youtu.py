@@ -40,6 +40,8 @@ class YouTu(object):
         self._userid     = userid
         self._end_point  = end_point
         conf.set_app_info(appid, secret_id, secret_key, userid, end_point)
+        # print ('xxxxxxxxx',conf.set_app_info())
+        # print ('ccccccccc', conf.set_app_info(appid, secret_id, secret_key, userid, end_point))
     
     def get_headers(self, req_type):
        
@@ -802,8 +804,9 @@ class YouTu(object):
             r = requests.post(url, headers=headers, data = json.dumps(data))
             if r.status_code != 200:
                 return {'httpcode':r.status_code, 'errorcode':'', 'errormsg':''}
-
+            print("r",r)
             ret = r.json()
+            print("ret:",ret)
         except Exception as e:
             return {'httpcode':0, 'errorcode':self.IMAGE_NETWORK_ERROR, 'errormsg':str(e)}
 
@@ -819,6 +822,11 @@ class YouTu(object):
             "session_id": seq,
         }
 
+        # js = json.loads('{"\u6728\u6613\u67d0\u95f2\u4eba":"中国"}')
+        # print ((js),type(js))
+        # print (json.dumps(js),type(json.dumps(js)))
+        # print (json.dumps(js, ensure_ascii=False),type(json.dumps(js, ensure_ascii=False)))
+
         if len(image_path) == 0:
             return {'httpcode':0, 'errorcode':self.IMAGE_PATH_EMPTY, 'errormsg':'IMAGE_PATH_EMPTY'}
 
@@ -830,18 +838,24 @@ class YouTu(object):
             data["image"] = base64.b64encode(open(filepath, 'rb').read()).rstrip().decode('utf-8')
         else:
             data["url"] = image_path
-
+        # print ('data, json.dumps(data):',json.dumps(data))
         r = {}
         try:
-            r = requests.post(url, headers=headers, data = json.dumps(data))
+            r = requests.post(url, headers=headers, data = json.dumps(data,ensure_ascii=False))
             if r.status_code != 200:
                 return {'httpcode':r.status_code, 'errorcode':'', 'errormsg':''}
+            # print('r.content, dir(r)', r.content, dir(r))
+            # print('r.apparent_encoding', r.apparent_encoding)
+            # print('r.content.decode('utf-8')', r.content.decode('utf-8'))
 
-            ret = r.json()
+            # ret = r.json()
+            result = r.content.decode('utf-8')
         except Exception as e:
             return {'httpcode':0, 'errorcode':self.IMAGE_NETWORK_ERROR, 'errormsg':str(e)}
 
-        return ret
+        # return ret
+        result = json.loads(result)
+        return result
 
     def livegetfour(self, seq = ''):
 

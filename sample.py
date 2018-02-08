@@ -1,14 +1,46 @@
 # -*- coding: utf-8 -*-
+# tencent youtu request output format:
+# {
+# 	"errorcode":0,
+# 	"errormsg":"OK",
+# 	"items":
+#         [
+#             {
+#                "itemcoord":{"x":10,"y":4,"width":316,"height":61},
+#                "itemstring":"至致全国体育迷:",
+#                "coords"[],
+#                "words"[
+#                     {"character":"至","confidence":0.9771012663841248},
+#                     ....
+#                     {"character":":","confidence":0.7994066476821899}
+#                  ],
+#                "candword":[]
+#             },
+#             {
+#                "itemcoord":{"x":7,"y":74,"width":423,"height":69},
+#                "itemstring":"让我們共为奥运加油",
+#                "coords":[],
+#                "words":[
+#                     {"character":"让","confidence":0.9785435795783997},
+#                     .....
+#                     {"character":"油","confidence":0.6906964778900147}
+#                    ],
+#                "candword":[]
+#             }
+#                 ],
+# 	"session_id":"",
+# 	"angle":0.0
+# }
 
 import time
 import TencentYoutuyun
-
+import json
 # pip install requests
 # please get these values from http://open.youtu.qq.com
-appid = 'xxxxx'
-secret_id = 'xxxxx'
-secret_key = 'xxxx'
-userid = 'xxxxx'
+appid = '10117921'
+secret_id = 'AKIDdHpDPOTjdKp8NRTIwNhEbmlqnY7V4CXg'
+secret_key = '60iNsFQPUt9C3iAjM4qTuAMOOWZQ5cP5'
+userid = ''
 
 #choose a end_point
 #end_point = TencentYoutuyun.conf.API_TENCENTYUN_END_POINT
@@ -16,7 +48,7 @@ userid = 'xxxxx'
 end_point = TencentYoutuyun.conf.API_YOUTU_END_POINT
 
 youtu = TencentYoutuyun.YouTu(appid, secret_id, secret_key, userid, end_point)
-session_id = "xxxxx"
+session_id = ''
 
 
 #for TencentYoutuyun.conf.API_YOUTU_VIP_END_POINT end_point
@@ -69,8 +101,26 @@ session_id = "xxxxx"
 #print retbcocr
 
 #general ocr: use local image
-#retgeneralocr = youtu.generalocr('icon_ocr_common01.png', data_type = 0)
-#print retgeneralocr
+num = 1
+imgname = str(num) + '.jpg'
+# imgname = 'timg.jpg'
+# retgeneralocr = youtu.generalocr(imgname, data_type = 0)
+result = youtu.generalocr(imgname, data_type = 0)
+print (type(result), result)
+
+for line in result["items"]:
+    print (line["itemstring"])
+
+
+#
+# while True:
+# 	# if num <= 4:
+# 		imgname = str(num) + '.jpg'
+# 		num += 1
+#         retgeneralocr = youtu.generalocr(imgname, data_type = 0)
+#         # print(retgeneralocr)
+#     else:
+#         break
 
 #id card validate: validate the idcard is correct
 #retvalidateidcard = youtu.ValidateIdcard('123456789987654321', '张三', session_id)
