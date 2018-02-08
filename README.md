@@ -1,8 +1,13 @@
-# tencentyun-youtu-python
+## generalPr分支修改说明
 
-腾讯优图generalOCR返回结果中文打印乱码，在原代码的基础上修改了解析过程，从而使中文结果打印正常
+####master版本中generalOCR返回结果中文打印乱码，generalPr分支在master代码的基础上修改了解析过程，从而使中文结果打印正常
 
 --------------------------------------------------------
+
+
+# tencentyun-youtu-python
+
+
 python sdk for [腾讯云智能优图服务](http://www.qcloud.com/product/fr.html) & [腾讯优图开放平台](http://open.youtu.qq.com) 
 
 ## 安装
